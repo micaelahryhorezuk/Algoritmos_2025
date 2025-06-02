@@ -96,20 +96,27 @@ def mostrar_twitter_con_python(cola_original):
 
 # Se apilan las notificaciones que están entre el rango horario dado.
 # Se cuenta cuántas hay. Se preserva la cola original.
+def hora_a_minutos(hora_str):
+    horas, minutos = map(int, hora_str.split(":"))
+    return horas * 60 + minutos
+
 def notificaciones_entre_horas(cola_original, hora_inicio, hora_fin):
     pila = Pila()
     cola_aux = Cola()
+    inicio_min = hora_a_minutos(hora_inicio)
+    fin_min = hora_a_minutos(hora_fin)
 
     while not cola_original.esta_vacia():
         noti = cola_original.desencolar()
-        if hora_inicio <= noti.hora <= hora_fin:
+        noti_min = hora_a_minutos(noti.hora)
+        if inicio_min <= noti_min <= fin_min:
             pila.apilar(noti)
         cola_aux.encolar(noti)
 
     while not cola_aux.esta_vacia():
         cola_original.encolar(cola_aux.desencolar())
 
-    print(f"\nCantidad de notificaciones entre {hora_inicio} y {hora_fin}: {pila.tamano()}")
+    print(f"Cantidad de notificaciones entre {hora_inicio} y {hora_fin}: {pila.tamano()}")
     return pila
 
 cola = Cola()
@@ -128,7 +135,7 @@ for noti in cola.items:
 
 eliminar_facebook(cola)
 
-print("\nDespués de eliminar notificaciones de Facebook:")
+print(f"Después de eliminar notificaciones de Facebook:")
 for noti in cola.items:
     print(noti)
 

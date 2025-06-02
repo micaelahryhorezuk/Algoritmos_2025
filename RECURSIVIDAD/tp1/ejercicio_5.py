@@ -6,7 +6,7 @@
 decimal = input("Ingrese un número romano: ")
 # Definición de la función romano_decimal
 # La función romano_decimal toma un número romano como entrada y devuelve su valor decimal.
-def romano_decimal(romano):
+def romano_decimal(romano): #funcion recursiva que convierte un número romano a decimal
     valores = {
         'I': 1,
         'V': 5,
