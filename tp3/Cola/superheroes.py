@@ -1,4 +1,4 @@
-
+#superherores es una lista de diccionarios que contiene información sobre varios superhéroes y villanos del universo Marvel.
 superheroes = [
     {
         "name": "Kang",
