@@ -1,5 +1,5 @@
 from typing import Any, Optional # esto es para que no de error en el IDE, no es necesario en la terminal
-from superheroes import superheroes # esto es para importar el módulo superheroes, que contiene la lista de superhéroes
+from superheroes import lista_superheroes # esto es para importar el módulo superheroes, que contiene la lista de superhéroes
 
 class Queue:
 
@@ -36,19 +36,19 @@ class Queue:
         for i in range(len(self.__elements)):
             print(self.move_to_end())
 
-superheroes = Queue()                                    # creamos una instancia de la clase Queue
-for personaje in superheroes:                            # recorremos la lista de superhéroes
-    superheroes.arrive(personaje)                        # agregamos cada personaje a la cola
+cola_superheroes = Queue()                                    # creamos una instancia de la clase Queue
+for personaje in lista_superheroes:                            # recorremos la lista de superhéroes
+    cola_superheroes.arrive(personaje)                        # agregamos cada personaje a la cola
 
 # a. determinar el nombre del personaje de la superhéroe Capitana Marvel;
-def nombre_LAsuperheroina(cola: Queue, nombre_heroe: str) -> None:  
+def nombre_LAsuperheroina(cola: Queue,name: str) -> None:  
     cola_aux = Queue()                                   #variable auxiliar para almacenar los personajes temporalmente
     encontrado = False 
 
     while cola.size() > 0:
         personaje = cola.attention()  #
-        if personaje['nombre_heroe'] == nombre_heroe:
-            print(f"El personaje de {nombre_heroe} es {personaje['nombre_real']}.")  #f hace formato de cadena
+        if personaje['name'] == name:
+            print(f"El personaje de {name} es {personaje['real_name']}.")  #f hace formato de cadena
             encontrado = True
         cola_aux.arrive(personaje)                       #arriba el personaje a la cola auxiliar
 
@@ -56,7 +56,7 @@ def nombre_LAsuperheroina(cola: Queue, nombre_heroe: str) -> None:
         cola.arrive(cola_aux.attention())  # devolvemos los personajes a la cola original
 
     if not encontrado:
-        print(f"No se encontró a {nombre_heroe} en la cola.")
+        print(f"No se encontró a {name} en la cola.")
 
 # b. Mostrar nombres de superhéroes femeninos
 def mostrar_heroínas(cola: Queue) -> None: 
@@ -66,7 +66,7 @@ def mostrar_heroínas(cola: Queue) -> None:
     while cola.size() > 0:
         personaje = cola.attention()
         if personaje['genero'] == 'F':
-            heroínas.append(personaje['nombre_heroe'])
+            heroínas.append(personaje['name'])
         cola_aux.arrive(personaje)  
 
     while cola_aux.size() > 0:
@@ -87,7 +87,7 @@ def mostrar_heroes(cola: Queue) -> None:
     while cola.size() > 0:
         personaje = cola.attention()
         if personaje['genero'] == 'M':
-            heroes.append(personaje['nombre_heroe'])
+            heroes.append(personaje['name'])
         cola_aux.arrive(personaje)  
 
     while cola_aux.size() > 0:
@@ -108,8 +108,8 @@ def buscar_heroe_por_personaje(cola: Queue, nombre_personaje: str) -> None:
 
     while cola.size() > 0:
         personaje = cola.attention()
-        if personaje['nombre_real'] == nombre_personaje:
-            heroe = personaje['nombre_heroe']
+        if personaje['real_name'] == nombre_personaje:
+            heroe = personaje['name']
             print(f"El superhéroe de {nombre_personaje} es {heroe}.")
         cola_aux.arrive(personaje) 
 
@@ -126,7 +126,7 @@ def mostrar_nombres_con_S(cola: Queue) -> None:
 
     while cola.size() > 0:
         personaje = cola.attention()
-        if personaje['nombre_heroe'].startswith('S') or personaje['nombre_real'].startswith('S'): #startswith verifica si la cadena comienza con 'S'
+        if personaje['name'].startswith('S') or personaje['real_name'].startswith('S'): #startswith verifica si la cadena comienza con 'S'
             encontrados.append(personaje)
         cola_aux.arrive(personaje)  
 
@@ -136,7 +136,7 @@ def mostrar_nombres_con_S(cola: Queue) -> None:
     if encontrados:
         print("Los superhéroes o personajes que comienzan con 'S' son:")
         for p in encontrados:
-            print(f"Nombre de héroe: {p['nombre_heroe']}, Nombre real: {p['nombre_real']}, Género: {p['genero']}")
+            print(f"Nombre de héroe: {p['name']}, Nombre real: {p['real_name']}, Género: {p['genero']}")
     else:
         print("No se encontraron superhéroes o personajes que comiencen con 'S' en la cola.")
 
@@ -147,8 +147,8 @@ def buscar_carol_danvers(cola: Queue) -> None:
 
     while cola.size() > 0:
         personaje = cola.attention()
-        if personaje['nombre_real'] == 'Carol Danvers':
-            print(f"El superhéroe de Carol Danvers es {personaje['nombre_heroe']}.")
+        if personaje['real_name'] == 'Carol Danvers':
+            print(f"El superhéroe de Carol Danvers es {personaje['name']}.")
             encontrado = True
         cola_aux.arrive(personaje)  
 
@@ -158,3 +158,9 @@ def buscar_carol_danvers(cola: Queue) -> None:
     if not encontrado:
         print("Carol Danvers no se encuentra en la cola.")
 
+nombre_LAsuperheroina(cola_superheroes, "Captain Marvel")
+mostrar_heroínas(cola_superheroes)
+mostrar_heroes(cola_superheroes)
+buscar_heroe_por_personaje(cola_superheroes, "Bruce Banner")
+mostrar_nombres_con_S(cola_superheroes)
+buscar_carol_danvers(cola_superheroes)
