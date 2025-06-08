@@ -4,20 +4,20 @@ class List(list):
 
     CRITERION_FUNCTIONS = {}
 
-    def add_criterion(
+    def add_criterion(   ## Método para agregar una función de criterio
         self,
         key_criterion: str,
         function,
     ):
         self.CRITERION_FUNCTIONS[key_criterion] = function
 
-    def show(
+    def show( # Método para mostrar los elementos de la lista
         self
     ) -> None:
         for element in self:
             print(element)
 
-    def delete_value(
+    def delete_value( # Método para eliminar un valor de la lista
         self,
         value,
         key_value: str = None,
@@ -33,7 +33,7 @@ class List(list):
     #     # list_number.insert(1, 11)
     #     pass
 
-    def sort_by_criterion(
+    def sort_by_criterion( # Método para ordenar la lista según un criterio 
         self,
         criterion_key: str = None,
     ) -> None:
@@ -46,7 +46,7 @@ class List(list):
         else:
             print('criterio de orden no encontrado')
 
-    def search(
+    def search( # Método para buscar un valor en la lista utilizando búsqueda binaria
         self,
         search_value,
         search_key: str = None,
@@ -69,3 +69,9 @@ class List(list):
             else:
                 end = middle -1
             middle = (start + end) // 2
+    
+    def count_nodes(self) -> int: # Método para contar la cantidad de nodos en la lista
+        count = 0
+        for _ in self:
+            count += 1
+        return count
