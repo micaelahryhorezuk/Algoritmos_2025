@@ -8,6 +8,7 @@ class List(list):
         self,
         key_criterion: str,
         function,
+        nombre: str = None,  # nombre opcional para la función de criterio
     ):
         self.CRITERION_FUNCTIONS[key_criterion] = function
 
@@ -50,6 +51,7 @@ class List(list):
         self,
         search_value,
         search_key: str = None,
+        key_value: str = None,
     ) -> int:
         self.sort_by_criterion(search_key)
         start = 0
