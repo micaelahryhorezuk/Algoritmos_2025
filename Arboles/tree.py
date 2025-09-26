@@ -11,7 +11,7 @@ class BinaryTree:
             self.left = None
             self.right = None
             self.hight = 0
-
+        #Representa cada nodo del árbol.
     def __init__(self):
         self.root = None
 
@@ -20,18 +20,19 @@ class BinaryTree:
             if root is None:
                 return BinaryTree.__nodeTree(value, other_values)
             elif value < root.value:
-                root.left = __insert(root.left, value, other_values)
+                root.left = __insert(root.left, value, other_values)  # si es menor
             else:
-                root.right = __insert(root.right, value, other_values)
+                root.right = __insert(root.right, value, other_values) # si es mayor
 
-            root = self.auto_balance(root)
-            self.update_hight(root)
+            root = self.auto_balance(root)   #balancea como AVL
+            self.update_hight(root)  #actualiza la altura del nodo
 
             return root
 
         self.root = __insert(self.root, value, other_values)
+        #Agrega un nodo nuevo en el lugar correcto, manteniendo el árbol ordenado y balanceado.
 
-    def pre_order(self):
+    def pre_order(self):        #→ root → left → right
         def __pre_order(root):
             if root is not None:
                 print(root.value, root.other_values, root.hight)
@@ -41,7 +42,7 @@ class BinaryTree:
         if self.root is not None:
             __pre_order(self.root)
 
-    def in_order(self):
+    def in_order(self):             #→ left → root → right
         def __in_order(root):
             if root is not None:
                 __in_order(root.left)
@@ -51,7 +52,7 @@ class BinaryTree:
         if self.root is not None:
             __in_order(self.root)
 
-    def post_order(self):
+    def post_order(self):       #right → root → left
         def __post_order(root):
             if root is not None:
                 __post_order(root.right)
@@ -61,7 +62,7 @@ class BinaryTree:
         if self.root is not None:
             __post_order(self.root)
 
-    def search(self, value: Any) -> __nodeTree:
+    def search(self, value: Any) -> __nodeTree:  #busca un nodo con el valor especificado y devuelve una referencia al nodo si se encuentra, o None si no se encuentra.
         def __search(root, value):
             if root is not None:
                 if root.value == value:
@@ -71,12 +72,12 @@ class BinaryTree:
                 else:
                     return __search(root.right, value)
 
-        aux = None
-        if self.root is not None:
-            aux = __search(self.root, value)
+        aux = None 
+        if self.root is not None: 
+            aux = __search(self.root, value) 
         return aux
 
-    def proximity_search(self, value: Any) -> __nodeTree:
+    def proximity_search(self, value: Any) -> __nodeTree: #muestra todos los nodos cuyos valores comienzan con el prefijo dado. (texto)
         def __search(root, value):
             if root is not None:
                 if root.value.startswith(value):
@@ -91,7 +92,7 @@ class BinaryTree:
             aux = __search(self.root, value)
         return aux
 
-    def delete(self, value: Any):
+    def delete(self, value: Any): #busca el nodo a eliminar y lo elimina del árbol, manteniendo la propiedad del árbol binario de búsqueda.
         def __replace(root):
             if root.right is None:
                 return root.left, root
@@ -99,7 +100,7 @@ class BinaryTree:
                 root.right, replace_node = __replace(root.right)
                 return root, replace_node
 
-        def __delete(root, value):
+        def __delete(root, value): #elimina el nodo con el valor especificado y devuelve el nodo eliminado junto con sus otros valores.
             delete_value = None
             deleter_other_values = None
             if root is not None:
@@ -130,7 +131,7 @@ class BinaryTree:
         
         return delete_value, deleter_other_values
     
-    def by_level(self):
+    def by_level(self): #recorre el árbol por niveles, imprimiendo los valores de los nodos en orden de nivel.
         tree_queue = Queue()
         if self.root is not None:
             tree_queue.arrive(self.root)
@@ -142,20 +143,20 @@ class BinaryTree:
                     tree_queue.arrive(node.left)
                 if node.right is not None:
                     tree_queue.arrive(node.right)
-
-    def hight(self, root):
+ 
+    def hight(self, root): #devuelve la altura de un nodo dado. Si el nodo es None, devuelve -1.
         if root is None:
             return -1
         else:
             return root.hight
 
-    def update_hight(self, root):
+    def update_hight(self, root): #actualiza la altura de un nodo dado en función de las alturas de sus hijos izquierdo y derecho.
         if root is not None:
             alt_left = self.hight(root.left)
             alt_right = self.hight(root.right)
             root.hight = max(alt_left, alt_right) + 1
 
-    def simple_rotation(self, root, control):
+    def simple_rotation(self, root, control): #rotación simple para balancear el árbol.
         if control: # RS Right
             aux = root.left
             root.left = aux.right
@@ -169,8 +170,8 @@ class BinaryTree:
         self.update_hight(aux)
         root = aux
         return root
-
-    def double_rotation(self, root, control):
+ 
+    def double_rotation(self, root, control): #rotación doble para balancear el árbol.
         if control: # RD Right
             root.left = self.simple_rotation(root.left, False)
             root = self.simple_rotation(root, True)
@@ -180,7 +181,7 @@ class BinaryTree:
         
         return root
 
-    def auto_balance(self, root):
+    def auto_balance(self, root): #balancea el árbol automáticamente después de una inserción o eliminación.
         if root is not None:
             if self.hight(root.left) - self.hight(root.right) == 2:
                 if self.hight(root.left.left) >= self.hight(root.left.right):
@@ -198,7 +199,7 @@ class BinaryTree:
                     root = self.double_rotation(root, False)
         return root
 
-    def villain_in_order(self):
+    def villain_in_order(self): #muestra todos los nodos que son villanos (is_villain es True) en orden.
         def __villain_in_order(root):
             if root is not None:
                 __villain_in_order(root.left)
@@ -209,7 +210,7 @@ class BinaryTree:
         if self.root is not None:
             __villain_in_order(self.root)
 
-    def count_heroes(self):
+    def count_heroes(self): #cuenta y devuelve el número de nodos que son héroes (is_villain es False) en el árbol.
         def __count_heroes(root):
             count = 0
             if root is not None:
@@ -226,7 +227,7 @@ class BinaryTree:
         
         return total
     
-    def divide_tree(self, arbol_h, arbol_v):
+    def divide_tree(self, arbol_h, arbol_v): #divide el árbol en dos árboles separados: uno para héroes (is_villain es False) y otro para villanos (is_villain es True).
         def __divide_tree(root, arbol_h, arbol_v):
             if root is not None:
                 if root.other_values["is_villain"] is False:
@@ -239,7 +240,7 @@ class BinaryTree:
 
         __divide_tree(self.root, arbol_h, arbol_v)
     
-    def in_order_height(self):
+    def in_order_height(self): #muestra todos los nodos con una altura mayor a 100 en orden.
         def __in_order_height(root):
             if root is not None:
                 __in_order_height(root.left)
@@ -250,7 +251,7 @@ class BinaryTree:
         if self.root is not None:
             __in_order_height(self.root)
     
-    def in_order_weight(self):
+    def in_order_weight(self): #muestra todos los nodos con un peso menor a 75 en orden.
         def __in_order_weight(root):
             if root is not None:
                 __in_order_weight(root.left)
